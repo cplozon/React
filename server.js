@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var logger = require('morgan');
 var cheerio = require('cheerio');
 
-//var Article = require('./models/Article.js');
+var Article = require('./models/Article.js');
 
 //initialize express
 var app = express();
@@ -19,10 +19,6 @@ app.use(bodyParser.text());
 app.use(bodyParser.json({type:'application/vnd.api+json'}));
 
 app.use(express.static('./public'));
-
-//var link = 'mongodb://heroku_zpgkpj4r:gnvnf7kmeruhl6caa68s0qr70e@ds151137.mlab.com:51137/heroku_zpgkpj4r';
-//Local link
-// var link = 'mongodb://localhost/nytreact';
 
 mongoose.connect("mongodb://localhost/foxnewsdata");
 var db = mongoose.connection;

@@ -7,7 +7,7 @@ var ArticleSchema = new Schema({
     required: true
   },
   date: {
-    type: Date
+    type: Date,
     required: true
   },
   url: {
