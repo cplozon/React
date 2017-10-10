@@ -1,7 +1,49 @@
 var React = require('react');
-var Router = require('react-router')
+var Router = require('react-router');
 
-var Main = React.createClass({
+var Query = require('./Search/Query');
+var Results = require('./Search/Results');
+
+var helpers = require('../utils/helpers');
+
+var Search = React.createClass({
+
+  getInitialState: function() {
+    return {
+      queryTerm: "",
+      startYear: "",
+      endYear: "",
+      results: {}
+    }
+  },
+
+  componentDidUpdate: function(prevProps, prevState)  {
+
+
+    if (this.state.queryTerm != "" && (prevState.queryTerm != this.state.queryTerm || prevState.startYear != this.state.startYear || prevState.endYear != this.state.endYear))
+    {
+      helpers.runQuery(this.state.queryTerm, this.state.startYear, this.state.endYear)
+
+      .then(function(data)  {
+        if (data != this.state.results)
+        {
+          this.setState({
+            results: data
+          })
+        }
+
+      }.bind(this))
+    }
+  },
+
+  setQuery: function(newQuery, newStart, newEnd){
+
+    this.setState({
+      queryTerm: newQuery,
+      startYear: newStart,
+      endYear: newEnd
+    })
+  },
 
   render: function(){
 
@@ -9,40 +51,14 @@ var Main = React.createClass({
 
       <div className="main-container">
 
+        <Query updateSearch={this.setQuery} />
 
-        <div className="container">
+        <Results results={this.state.results}/>
 
-          <nav className="navbar navbar-default" role="navigation">
-            <div className="container-fluid">
-              <div className="navbar-header">
-                <button type="button" className="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                  <span className="sr-only">Toggle navigation</span>
-                  <span className="icon-bar"></span>
-                  <span className="icon-bar"></span>
-                  <span className="icon-bar"></span>
-                </button>
-                <a className="navbar-brand" href="#">React</a>
-              </div>
-
-              <div className="collapse navbar-collapse navbar-ex1-collapse">
-                <ul className="nav navbar-nav navbar-right">
-                  <li><a href="#/search">Search</a></li>
-                  <li><a href="#/saved">Saved Articles</a></li>
-                </ul>
-              </div>
-            </div>
-          </nav>
-
-          <div className="jumbotron">
-            <h2 className="text-center"><strong>New York Times Article Scrubber</strong></h2>
-          </div>
-
-          {this.props.children}
-
-        </div>
       </div>
+
     )
   }
 });
 
-module.exports = Main;
+module.exports = Search;
