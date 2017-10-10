@@ -21,7 +21,7 @@ var Main = React.createClass({
                   <span className="icon-bar"></span>
                   <span className="icon-bar"></span>
                 </button>
-                <a className="navbar-brand" href="#">NYT-React</a>
+                <a className="navbar-brand" href="#">React</a>
               </div>
 
               <div className="collapse navbar-collapse navbar-ex1-collapse">
